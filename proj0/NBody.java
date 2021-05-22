@@ -39,6 +39,7 @@ public class NBody {
 			StdDraw.pause(10);
 			t = t+dt;
 		}
+		StdAudio.play("./audio/2001.mid");
 		StdOut.printf("%d\n", planets.length);
 		StdOut.printf("%.2e\n", rOfUniverse);
 		for (int i = 0; i < planets.length; i++) {
