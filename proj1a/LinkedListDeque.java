@@ -47,7 +47,7 @@ public class LinkedListDeque<T> {
     }
     /** Returns true if deque is empty, false otherwise */
     public boolean isEmpty() {
-        return size==0;
+        return size == 0;
     }
     /** Returns the number of items in the deque */
     public int size() {
@@ -103,7 +103,7 @@ public class LinkedListDeque<T> {
         if (index == 0) {
             return current.item;
         } else {
-            return getRecursive(index-1, current.next);
+            return getRecursive(index - 1, current.next);
         }
     }
     public T getRecursive(int index) {

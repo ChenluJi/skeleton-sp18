@@ -9,7 +9,7 @@ public class ArrayDeque<T> {
         items = (T[]) new Object[8];
         size = 0;
         nextFirst = 0;
-        nextLast = 0;
+        nextLast = 1;
     }
     /** constructor: Creates a deep copy of other. */
     /**public ArrayDeque(ArrayDeque other) {
@@ -20,21 +20,21 @@ public class ArrayDeque<T> {
         nextFirst = other.nextFirst;
         nextLast = other.nextLast;
     }*/
-    private int getPrevIndex(int idx){
+    private int getPrevIndex(int idx) {
         int prevIdx = idx - 1;
         if (prevIdx < 0) {
             prevIdx += items.length;
         }
         return prevIdx;
     }
-    private int getNextIndex(int idx){
+    private int getNextIndex(int idx) {
         int nextIdx = idx + 1;
         if (nextIdx >= items.length) {
             nextIdx -= items.length;
         }
         return nextIdx;
     }
-    private int getNextNthIndex(int idx, int n){
+    private int getNextNthIndex(int idx, int n) {
         int nextNthIdx = idx + n;
         if (nextNthIdx >= items.length) {
             nextNthIdx -= items.length;
@@ -43,10 +43,12 @@ public class ArrayDeque<T> {
     }
     /** resize current items length to 2*length */
     private T[] resize(T[] array) {
-        T[] a = (T[]) new Object[size*2];
+        T[] a = (T[]) new Object[size * 2];
         //TODOa: check arraycopy
-        System.arraycopy(array, getNextIndex(nextFirst), a, 0, array.length-getNextIndex(nextFirst));
-        System.arraycopy(array, 0, a, array.length-getNextIndex(nextFirst), getPrevIndex(nextLast));
+        int idx1 = getNextIndex(nextFirst);
+        int idx2 = getPrevIndex(nextLast);
+        System.arraycopy(array, idx1, a, 0, array.length - idx1);
+        System.arraycopy(array, 0, a, array.length-idx1, idx2);
         nextFirst = a.length - 1;
         nextLast = size;
         return a;
@@ -55,12 +57,12 @@ public class ArrayDeque<T> {
      * your usage factor should always be at least 25%.
      * For smaller arrays, your usage factor can be arbitrarily low */
     private T[] downSize(T[] array) {
-        T[] a = (T[]) new Object[size*4];
+        T[] a = (T[]) new Object[size * 2];
         // TODOa: check arraycopy
         int idx1 = getNextIndex(nextFirst);
         int idx2 = getPrevIndex(nextLast);
-        System.arraycopy(array, idx1, a, 0, array.length-idx1);
-        System.arraycopy(array, 0, a, array.length-idx1, idx2);
+        System.arraycopy(array, idx1, a, 0, array.length - idx1);
+        System.arraycopy(array, 0, a, array.length - idx1, idx2);
         nextFirst = a.length - 1;
         nextLast = size;
         return a;
@@ -124,13 +126,14 @@ public class ArrayDeque<T> {
      * your usage factor should always be at least 25%.
      * For smaller arrays, your usage factor can be arbitrarily low */
     public T removeLast() {
+        if (size == 0) {
+            return null;
+        }
         T last = items[getPrevIndex(nextLast)];
         items[getPrevIndex(nextLast)] = null;
-        if (size > 0) {
-            size -= 1;
-        }
+        size -= 1;
         nextLast = getPrevIndex(nextLast);
-        if (size >= 16) {
+        if ((size >= 16) & (size / items.length < 0.25)) {
             items = downSize(items);
         }
         return last;
