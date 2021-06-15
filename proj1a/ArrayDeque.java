@@ -61,8 +61,8 @@ public class ArrayDeque<T> {
         // TODOa: check arraycopy
         int idx1 = getNextIndex(nextFirst);
         int idx2 = getPrevIndex(nextLast);
-        System.arraycopy(array, idx1, a, 0, array.length - idx1);
-        System.arraycopy(array, 0, a, array.length - idx1, idx2);
+        System.arraycopy(array, idx1, a, 0, array.length - idx1 + 1);
+        System.arraycopy(array, 0, a, array.length - idx1 + 1, idx2 + 1);
         nextFirst = a.length - 1;
         nextLast = size;
         return a;
