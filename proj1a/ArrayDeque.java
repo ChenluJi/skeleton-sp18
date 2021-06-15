@@ -48,14 +48,14 @@ public class ArrayDeque<T> {
         int idx1 = getNextIndex(nextFirst);
         int idx2 = getPrevIndex(nextLast);
         System.arraycopy(array, idx1, a, 0, array.length - idx1);
-        System.arraycopy(array, 0, a, array.length - idx1, idx2);
+        System.arraycopy(array, 0, a, array.length - idx1, idx2 + 1);
         nextFirst = a.length - 1;
         nextLast = size;
         return a;
     }
     /** downsize current items length: For arrays of length 16 or more,
      * your usage factor should always be at least 25%.
-     * For smaller arrays, your usage factor can be arbitrarily low */
+     * For smaller arrays, your usage factor can be arbitrarily low
     private T[] downSize(T[] array) {
         T[] a = (T[]) new Object[size * 2];
         // TODOa: check arraycopy
@@ -66,7 +66,7 @@ public class ArrayDeque<T> {
         nextFirst = a.length - 1;
         nextLast = size;
         return a;
-    }
+    } */
 
     /** Adds an item of type T to the front of the deque */
     public void addFirst(T f) {
@@ -117,7 +117,7 @@ public class ArrayDeque<T> {
         }
         nextFirst = getNextIndex(nextFirst);
         if (size >= 16) {
-            items = downSize(items);
+            items = resize(items);
         }
         return first;
     }
@@ -134,7 +134,7 @@ public class ArrayDeque<T> {
         size -= 1;
         nextLast = getPrevIndex(nextLast);
         if ((size >= 16) & (size / items.length < 0.25)) {
-            items = downSize(items);
+            items = resize(items);
         }
         return last;
     }
