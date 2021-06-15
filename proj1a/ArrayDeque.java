@@ -46,9 +46,11 @@ public class ArrayDeque<T> {
         T[] a = (T[]) new Object[size * 2];
         //TODOa: check arraycopy
         int idx1 = getNextIndex(nextFirst);
-        int idx2 = getPrevIndex(nextLast);
         System.arraycopy(array, idx1, a, 0, array.length - idx1);
-        System.arraycopy(array, 0, a, array.length - idx1, idx2 + 1);
+        if (idx1 != 0) {
+            int idx2 = getPrevIndex(nextLast);
+            System.arraycopy(array, 0, a, array.length - idx1, idx2 + 1);
+        }
         nextFirst = a.length - 1;
         nextLast = size;
         return a;
@@ -116,7 +118,7 @@ public class ArrayDeque<T> {
             size -= 1;
         }
         nextFirst = getNextIndex(nextFirst);
-        if (size >= 16) {
+        if ((size >= 16) & ((float) size / items.length < 0.25)) {
             items = resize(items);
         }
         return first;
@@ -133,7 +135,7 @@ public class ArrayDeque<T> {
         items[getPrevIndex(nextLast)] = null;
         size -= 1;
         nextLast = getPrevIndex(nextLast);
-        if ((size >= 16) & (size / items.length < 0.25)) {
+        if ((size >= 16) & ((float) size / items.length < 0.25)) {
             items = resize(items);
         }
         return last;
