@@ -23,4 +23,17 @@ public class ArrayDequeTest {
         assertNotNull(first);
         assertNotNull(last);
     }
+    @Test
+    public void testRemoveFill() {
+        int N = 9;
+        for (int i = 0; i < N; i++) {
+            ad.addFirst(i);
+        }
+        for (int i = 0; i < N; i++) {
+            ad.removeFirst();
+        }
+//        for (int i = 0; i < N; i++) {
+//            ad.addFirst(i);
+//        }
+    }
 }
